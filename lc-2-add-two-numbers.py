@@ -31,14 +31,17 @@ from __future__ import annotations
 from typing import Any, Iterable, Optional
 import unittest
 
+
 # Definition for singly-linked list.
 class ListNode(Iterable[Any]):
     @staticmethod
     def nodify(l: list[Any]) -> ListNode:
-        if l == []: return ListNode()
+        if l == []:
+            return ListNode()
 
         head = ListNode(val=l[0])
-        if len(l) == 1: return head
+        if len(l) == 1:
+            return head
         node = head
 
         for i in range(1, len(l)):
@@ -50,7 +53,8 @@ class ListNode(Iterable[Any]):
 
     @staticmethod
     def reverse(head: Optional[ListNode]) -> Optional[ListNode]:
-        if not head or not head.next: return head
+        if not head or not head.next:
+            return head
         prev = None
         node = head
         while node != None:
@@ -89,6 +93,7 @@ class ListNode(Iterable[Any]):
             out += f"{nodeVal} "
         return out.strip()
 
+
 class Solution:
     @staticmethod
     def pruneLeadingZeros(list: Optional[ListNode]) -> ListNode:
@@ -97,49 +102,65 @@ class Solution:
             node = node.next
         return node
 
-    def addTwoNumbers(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+    def addTwoNumbers(
+        self, list1: Optional[ListNode], list2: Optional[ListNode]
+    ) -> Optional[ListNode]:
         out = ListNode()
         list1 = ListNode.reverse(list1)
         list2 = ListNode.reverse(list2)
         place = out
         carry = 0
+
         while list1 != None and list2 != None:
             place_sum = list1.val + list2.val + carry
             place.val = place_sum % 10
             carry = place_sum // 10
             next = ListNode()
             place.next = next
-            list1=list1.next
-            list2=list2.next
+            list1 = list1.next
+            list2 = list2.next
             place = next
 
         if list1 != None:
-            if carry != 0: list1.val += carry
+            if carry != 0:
+                list1.val += carry
             place = list1
 
         if list2 != None:
-            if carry != 0: list2.val += carry
+            if carry != 0:
+                list2.val += carry
             place = list2
 
         return Solution.pruneLeadingZeros(ListNode.reverse(out))
 
+
 class TestListNode(unittest.TestCase):
     def testEq(self) -> None:
-        list1 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
-        list2 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
+        list1 = ListNode(
+            val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3)))
+        )
+        list2 = ListNode(
+            val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3)))
+        )
         self.assertEqual(list1, list2, f"expected {list(list1)}, got {list(list2)}")
 
     def testNeq(self) -> None:
         list1 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2)))
-        list2 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
+        list2 = ListNode(
+            val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3)))
+        )
         self.assertNotEqual(list1, list2, f"expected {list(list1)}, got {list(list2)}")
         list1 = ListNode(val=0, next=ListNode(val=1))
-        list2 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
+        list2 = ListNode(
+            val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3)))
+        )
         self.assertNotEqual(list1, list2, f"expected {list(list1)}, got {list(list2)}")
 
     def testIter(self) -> None:
-        nodeList = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
-        expectedList = [0,1,2,3]
+        nodeList = ListNode(
+            val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3)))
+        )
+        expectedList = [0, 1, 2, 3]
         outputList: list[Any] = []
         for node in nodeList:
             outputList.append(node)
@@ -148,7 +169,7 @@ class TestListNode(unittest.TestCase):
     def testNodeListifyMany(self) -> None:
         nodeList = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2)))
         l = list(nodeList)
-        self.assertEqual(l, [0,1,2], "expected [0,1,2], got {l}".format(l=l))
+        self.assertEqual(l, [0, 1, 2], "expected [0,1,2], got {l}".format(l=l))
 
     def testListNodifyOne(self) -> None:
         l = [0]
@@ -189,35 +210,51 @@ class TestListNode(unittest.TestCase):
         )
 
     def testReverseMany(self) -> None:
-        result = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3, next=ListNode(val=4)))))
+        result = ListNode(
+            val=0,
+            next=ListNode(
+                val=1, next=ListNode(val=2, next=ListNode(val=3, next=ListNode(val=4)))
+            ),
+        )
         result = ListNode.reverse(result)
-        expected = ListNode(val=4, next=ListNode(val=3, next=ListNode(val=2, next=ListNode(val=1, next=ListNode(val=0)))))
+        expected = ListNode(
+            val=4,
+            next=ListNode(
+                val=3, next=ListNode(val=2, next=ListNode(val=1, next=ListNode(val=0)))
+            ),
+        )
         self.assertEqual(
             result,
             expected,
             f"expected {expected}, got {result}",
         )
 
+
 class TestAddTwoNumbers(unittest.TestCase):
     def testAddTwoNumbers(self) -> None:
         sol: Solution = Solution()
-        list1 = ListNode.nodify([2,4,3])
-        list2 = ListNode.nodify([5,6,4])
+        list1 = ListNode.nodify([2, 4, 3])
+        list2 = ListNode.nodify([5, 6, 4])
         res = sol.addTwoNumbers(list1, list2)
-        exp = ListNode.nodify([8,0,7])
+        exp = ListNode.nodify([8, 0, 7])
         self.assertEqual(res, exp, f"expected {exp}, got {res}")
 
         list1 = ListNode.nodify([0])
         list2 = ListNode.nodify([0])
         res = sol.addTwoNumbers(list1, list2)
         exp = ListNode.nodify([0])
-        self.assertEqual(sol.addTwoNumbers(list1, list2), res, f"expected {exp}, got {res}")
+        self.assertEqual(
+            sol.addTwoNumbers(list1, list2), res, f"expected {exp}, got {res}"
+        )
 
-        list1 = ListNode.nodify([9,9,9,9,9,9,9])
-        list2 = ListNode.nodify([9,9,9,9])
+        list1 = ListNode.nodify([9, 9, 9, 9, 9, 9, 9])
+        list2 = ListNode.nodify([9, 9, 9, 9])
         res = sol.addTwoNumbers(list1, list2)
-        exp = ListNode.nodify([8,9,9,9,0,0,0,1])
-        self.assertEqual(sol.addTwoNumbers(list1, list2), res, f"expected {exp}, got {res}")
+        exp = ListNode.nodify([8, 9, 9, 9, 0, 0, 0, 1])
+        self.assertEqual(
+            sol.addTwoNumbers(list1, list2), res, f"expected {exp}, got {res}"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
