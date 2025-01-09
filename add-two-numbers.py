@@ -60,9 +60,7 @@ class ListNode(Iterable[Any]):
             node = node.next
 
     def __eq__(self, other: object) -> bool:
-        print(self.__class__)
-        print(other.__class__)
-        if not isinstance(other, ListNode):
+        if not isinstance(other, self.__class__):
             return NotImplemented
         node1 = self
         node2 = other
@@ -71,7 +69,8 @@ class ListNode(Iterable[Any]):
                 return False
             node1 = node1.next
             node2 = node2.next
-        return not (node1 == None and node2 == None)
+        # works since we expect both to be None if they're equal
+        return node1 == node2
 
     def __str__(self) -> str:
         out = ""
@@ -94,6 +93,19 @@ class Solution:
         return ListNode(val=0, next=None)
 
 class TestListNode(unittest.TestCase):
+    def testEq(self) -> None:
+        list1 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
+        list2 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
+        self.assertEqual(list1, list2, f"expected {list(list1)}, got {list(list2)}")
+
+    def testNeq(self) -> None:
+        list1 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2)))
+        list2 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
+        self.assertNotEqual(list1, list2, f"expected {list(list1)}, got {list(list2)}")
+        list1 = ListNode(val=0, next=ListNode(val=1))
+        list2 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
+        self.assertNotEqual(list1, list2, f"expected {list(list1)}, got {list(list2)}")
+
     def testIter(self) -> None:
         nodeList = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
         expectedList = [0,1,2,3]
@@ -101,13 +113,6 @@ class TestListNode(unittest.TestCase):
         for node in nodeList:
             outputList.append(node)
         self.assertEqual(outputList, expectedList)
-
-    def testEq(self) -> None:
-        list1 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
-        list2 = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2, next=ListNode(val=3))))
-        print(list1)
-        print(list2)
-        self.assertEqual(list1, list2, f"expected {list(list1)}, got {list(list2)}")
 
     def testNodeListifyMany(self) -> None:
         nodeList = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2)))
