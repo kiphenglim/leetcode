@@ -35,17 +35,17 @@ import unittest
 # Definition for singly-linked list.
 class ListNode(Iterable[Any]):
     @staticmethod
-    def nodify(l: list[Any]) -> ListNode:
-        if l == []:
+    def nodify(_list: list[Any]) -> ListNode:
+        if _list == []:
             return ListNode()
 
-        head = ListNode(val=l[0])
-        if len(l) == 1:
+        head = ListNode(val=_list[0])
+        if len(_list) == 1:
             return head
         node = head
 
-        for i in range(1, len(l)):
-            next = ListNode(val=l[i])
+        for i in range(1, len(_list)):
+            next = ListNode(val=_list[i])
             node.next = next
             node = next
 
@@ -57,7 +57,7 @@ class ListNode(Iterable[Any]):
             return head
         prev = None
         node = head
-        while node != None:
+        while node is not None:
             next = node.next
             node.next = prev
             prev = node
@@ -79,13 +79,13 @@ class ListNode(Iterable[Any]):
             return NotImplemented
         node1 = self
         node2 = other
-        while node1 != None and node2 != None:
+        while node1 is not None and node2 is not None:
             if node1.val != node2.val:
                 return False
             node1 = node1.next
             node2 = node2.next
         # works since we expect both to be None if they're equal
-        return node1 == None and node2 == None
+        return node1 is None and node2 is None
 
     def __str__(self) -> str:
         out = ""
@@ -98,7 +98,7 @@ class Solution:
     @staticmethod
     def pruneLeadingZeros(list: Optional[ListNode]) -> ListNode:
         node = list if list else ListNode()
-        if node.val == 0 and node.next != None:
+        if node.val == 0 and node.next is not None:
             node = node.next
         return node
 
@@ -111,7 +111,7 @@ class Solution:
         place = out
         carry = 0
 
-        while list1 != None and list2 != None:
+        while list1 is not None and list2 is not None:
             place_sum = list1.val + list2.val + carry
             place.val = place_sum % 10
             carry = place_sum // 10
@@ -121,12 +121,12 @@ class Solution:
             list2 = list2.next
             place = next
 
-        if list1 != None:
+        if list1 is not None:
             if carry != 0:
                 list1.val += carry
             place.next = list1
 
-        if list2 != None:
+        if list2 is not None:
             if carry != 0:
                 list2.val += carry
             place.next = list2
@@ -168,25 +168,25 @@ class TestListNode(unittest.TestCase):
 
     def testNodeListifyMany(self) -> None:
         nodeList = ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2)))
-        l = list(nodeList)
-        self.assertEqual(l, [0, 1, 2], "expected [0,1,2], got {l}".format(l=l))
+        _list = list(nodeList)
+        self.assertEqual(_list, [0, 1, 2], f"expected [0,1,2], got {_list}")
 
     def testListNodifyOne(self) -> None:
-        l = [0]
-        nodeList = ListNode.nodify(l)
+        _list = [0]
+        nodeList = ListNode.nodify(_list)
         self.assertEqual(
             nodeList,
             ListNode(val=0),
-            "expected [0], got {}".format(list(nodeList)),
+            f"expected [0], got {_list}",
         )
 
     def testListNodifyMany(self) -> None:
-        l = [0, 1, 2]
-        nodeList = ListNode.nodify(l)
+        _list = [0, 1, 2]
+        nodeList = ListNode.nodify(_list)
         self.assertEqual(
             nodeList,
             ListNode(val=0, next=ListNode(val=1, next=ListNode(val=2))),
-            "expected [0, 1, 2], got {}".format(list(nodeList)),
+            f"expected [0, 1, 2], got {_list}",
         )
 
     def testReverseOne(self) -> None:
