@@ -103,11 +103,11 @@ class Solution:
         return node
 
     def addTwoNumbers(
-        self, list1: Optional[ListNode], list2: Optional[ListNode]
+        self, l1: Optional[ListNode], l2: Optional[ListNode]
     ) -> Optional[ListNode]:
         out = ListNode()
-        list1 = ListNode.reverse(list1)
-        list2 = ListNode.reverse(list2)
+        list1 = ListNode.reverse(l1)
+        list2 = ListNode.reverse(l2)
         place = out
         carry = 0
 
@@ -124,12 +124,12 @@ class Solution:
         if list1 != None:
             if carry != 0:
                 list1.val += carry
-            place = list1
+            place.next = list1
 
         if list2 != None:
             if carry != 0:
                 list2.val += carry
-            place = list2
+            place.next = list2
 
         return Solution.pruneLeadingZeros(ListNode.reverse(out))
 
@@ -243,6 +243,22 @@ class TestAddTwoNumbers(unittest.TestCase):
         list2 = ListNode.nodify([0])
         res = sol.addTwoNumbers(list1, list2)
         exp = ListNode.nodify([0])
+        self.assertEqual(
+            sol.addTwoNumbers(list1, list2), res, f"expected {exp}, got {res}"
+        )
+
+        list1 = ListNode.nodify([5])
+        list2 = ListNode.nodify([5])
+        res = sol.addTwoNumbers(list1, list2)
+        exp = ListNode.nodify([1, 0])
+        self.assertEqual(
+            sol.addTwoNumbers(list1, list2), res, f"expected {exp}, got {res}"
+        )
+
+        list1 = ListNode.nodify([1, 0])
+        list2 = ListNode.nodify([1])
+        res = sol.addTwoNumbers(list1, list2)
+        exp = ListNode.nodify([1, 1])
         self.assertEqual(
             sol.addTwoNumbers(list1, list2), res, f"expected {exp}, got {res}"
         )
