@@ -30,6 +30,7 @@ Constraints:
 
 import unittest
 
+
 class Solution:
     def naiveTwoSum(self, nums: list[int], target: int) -> list[int]:
         """
@@ -38,7 +39,8 @@ class Solution:
         """
         for i in range(len(nums)):
             for j in range(len(nums)):
-                if i == j: continue
+                if i == j:
+                    continue
                 if nums[i] + nums[j] == target:
                     return [i, j]
         return [-1, -1]
@@ -49,7 +51,9 @@ class Solution:
         Time: O(N log N) + O(N)
         """
         numsWithIdx: list[tuple[int, int]] = list(zip(nums, range(len(nums))))
-        sortedNums: list[tuple[int, int]] = sorted(numsWithIdx, key=lambda pair: pair[0])
+        sortedNums: list[tuple[int, int]] = sorted(
+            numsWithIdx, key=lambda pair: pair[0]
+        )
         i = 0
         j = len(sortedNums) - 1
         while True:
@@ -78,38 +82,60 @@ class Solution:
             pairingToIdx[target - nums[i]] = i
         return [-1, -1]
 
+
 class TestTwoSumNaive(unittest.TestCase):
     def test_sort_two_sum(self):
-        test1 = [2,7,11,15]
-        test2 = [3,2,4]
-        test3 = [3,3]
+        test1 = [2, 7, 11, 15]
+        test2 = [3, 2, 4]
+        test3 = [3, 3]
 
         sol = Solution()
-        self.assertEqual(sol.naiveTwoSum(nums = test1, target = 9), [0, 1], "Should be [0, 1]")
-        self.assertEqual(sol.naiveTwoSum(nums = test2, target = 6), [1, 2], "Should be [1, 2]")
-        self.assertEqual(sol.naiveTwoSum(nums = test3, target = 6), [0, 1], "Should be [0, 1]")
+        self.assertEqual(
+            sol.naiveTwoSum(nums=test1, target=9), [0, 1], "Should be [0, 1]"
+        )
+        self.assertEqual(
+            sol.naiveTwoSum(nums=test2, target=6), [1, 2], "Should be [1, 2]"
+        )
+        self.assertEqual(
+            sol.naiveTwoSum(nums=test3, target=6), [0, 1], "Should be [0, 1]"
+        )
+
 
 class TestTwoSumSorted(unittest.TestCase):
     def test_sort_two_sum(self):
-        test1 = [2,7,11,15]
-        test2 = [3,2,4]
-        test3 = [3,3]
+        test1 = [2, 7, 11, 15]
+        test2 = [3, 2, 4]
+        test3 = [3, 3]
 
         sol = Solution()
-        self.assertEqual(sol.sortTwoSum(nums = test1, target = 9), [0, 1], "Should be [0, 1]")
-        self.assertEqual(sol.sortTwoSum(nums = test2, target = 6), [1, 2], "Should be [1, 2]")
-        self.assertEqual(sol.sortTwoSum(nums = test3, target = 6), [0, 1], "Should be [0, 1]")
+        self.assertEqual(
+            sol.sortTwoSum(nums=test1, target=9), [0, 1], "Should be [0, 1]"
+        )
+        self.assertEqual(
+            sol.sortTwoSum(nums=test2, target=6), [1, 2], "Should be [1, 2]"
+        )
+        self.assertEqual(
+            sol.sortTwoSum(nums=test3, target=6), [0, 1], "Should be [0, 1]"
+        )
+
 
 class TestTwoSum(unittest.TestCase):
     def test_sort_two_sum(self):
-        test1 = [2,7,11,15]
-        test2 = [3,2,4]
-        test3 = [3,3]
+        test1 = [2, 7, 11, 15]
+        test2 = [3, 2, 4]
+        test3 = [3, 3]
 
         sol = Solution()
-        self.assertEqual(sorted(sol.sortTwoSum(nums = test1, target = 9)), [0, 1], "Should be [0, 1]")
-        self.assertEqual(sorted(sol.sortTwoSum(nums = test2, target = 6)), [1, 2], "Should be [1, 2]")
-        self.assertEqual(sorted(sol.sortTwoSum(nums = test3, target = 6)), [0, 1], "Should be [0, 1]")
+        self.assertEqual(
+            sorted(sol.sortTwoSum(nums=test1, target=9)), [0, 1], "Should be [0, 1]"
+        )
+        self.assertEqual(
+            sorted(sol.sortTwoSum(nums=test2, target=6)), [1, 2], "Should be [1, 2]"
+        )
+        self.assertEqual(
+            sorted(sol.sortTwoSum(nums=test3, target=6)), [0, 1], "Should be [0, 1]"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
