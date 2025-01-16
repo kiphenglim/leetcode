@@ -35,7 +35,7 @@ class Solution:
         combinedList.sort()
         midIdx = (len(combinedList) - 1) / 2
         if type(midIdx) is int:
-            return combinedList[ceil(midIdx)]
+            return combinedList[midIdx]
         low = floor(midIdx)
         high = ceil(midIdx)
         return (combinedList[low] + combinedList[high]) / 2
